@@ -25,30 +25,20 @@ list<Item>::iterator ite;
 
 
 void consultar(){
+   cout << "======================= itens do inventario: ===========================" << endl;
+
    for( ite = inventario.begin(); ite != inventario.end(); ite++ ){
-        cout << "Nome:  " << ite->name;
-        cout << "   Poder: " << ite->power << endl;
-    }
-
-   /*
-      
-        Item value = Item("katana", 1001);
-        int num = 2323;
-        Item* weaponAddress = &value;
-
-     //   Item value2 = ite.getValue;
-        cout << "1.Valor do ponteiro = endereco de num: " << weaponAddress;
-        cout << "2. endereco de do ponteiro: " << &weaponAddress;
-        cout << "3. valor de num: " << (*weaponAddress->name );
-       // cout << *ite << " ";
-    */
+        cout << "  Nome:  " << ite->name;
+        cout << " // Poder: " << ite->power << endl;
+   }
+   cout << "=======================================================================" << endl;
 }
 
 void resetar()  {
     inventario.clear();
 }
 
-void adicionar(Item pers){
+template <typename T> void adicionar(const T& pers){
     inventario.push_back(pers);
 }
 
@@ -56,59 +46,56 @@ void adicionar(Item pers){
 
 void remover(string nomeRemover){
  
- 
     for( ite = inventario.begin(); ite != inventario.end(); ite++ ){
+      /*
       Item itemObj = *ite;
-      cout << "ite-> " << ite->name << endl;
-      cout << "ite.name " << itemObj.name << endl;
-      cout << "&ite " << &ite << endl;
-
+      cout << "ite->name:  " << ite->name << endl;
+      cout << "itemObj.name:  " << itemObj.name << endl;
+      cout << " (*ite).name:  " << (*ite).name << endl;
+      cout << "&ite:  " << &ite << endl;
+      */
 
       if( ite->name == nomeRemover){
-          cout << "passou no if" << endl;
-          //itemToBeRemoved = ite;
-          /*
-          cout << "O item " << ite->name << " foi removido!!";
-          Item itemToBeRemoved = *ite;
-          inventario.remove( itemToBeRemoved);
-          */
+          cout << "O item " << ite->name << " foi removido!!" << endl;
+          ite = inventario.erase(ite); // retorna o o proximo iterador de depois do item apagado
+          --ite; //voltando para o elemento anterior ao elemento apagado
       }
     }
-
-  
 }
 
 
 
 int main() {
-   
-    Item ak = Item("ak 47", 502);
-    Item faca = Item("faca", 18);
-    Item pistola = Item("pistola", 206);
-   
-    consultar(); 
+  
+    Item ak = Item("ak-47", 2002);
+    Item m4 = Item("m4", 1950);
+    Item katana = Item("katana", 108);
+    Item pistola ("pistola", 506);
 
+    //adicionando no inventario manualmente:
     inventario.push_back(ak);
-    inventario.push_back(faca);
-    inventario.push_back(pistola);
-    adicionar( Item("faca de mesa", 806) );
+    inventario.push_back(m4);
+    inventario.push_back(katana);
 
- 
-  //  inventario.clear();
+    //adicionando no inventario via template function:
+    adicionar<Item>( pistola );
+    adicionar<Item>( Item("faca de mesa", 806) );
+    adicionar<Item>( Item("shotgun", 1206) );
+    adicionar<Item>( Item("handgun", 700) );
    
-    consultar();
 
+    consultar();
     remover("faca");
-
     consultar();
+
    
 
-   // cout << "Hello, world! " << a.name;
-
- 
     return 0;
 }
 
+
+
+
+
 // o comando "gcc -o ola ./sortList.cpp" compila e gera um executavel
 // o comando "./sortList.cpp" executa o programa na linha de comando
-
